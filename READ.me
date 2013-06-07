@@ -1,0 +1,46 @@
+This is KDD Cup 2013 Track 2 materials.
+There is no great maths or ideas here, everything was made for fun.
+
+Initial data for KDD Cup 2013 was both in csv-files and PostgreSQL database. I prefer to work with database because it
+ is much more convenient and faster. So, I used psycopg module to connect database and pandas module for queries.
+
+
+There are 2 scripts:
+
+kdd2013_track2_preparation.py - get data from database, create extended data set and save to dump file.
+It was done with the goal not to waste time querying database and making extended data set every time we run
+computations. Just calculate once and store to dump file. I tried pickle, HDF5, marshal for dumping (serialization).
+It came out that pickle is unable to deal with big data. I chose marshal module for its simplicity and efficiency.
+
+
+kdd2013_track2_computation*.py - using data from the dump calculate similarities between authors, save results to
+csv file for submission. Some variation of brute force Nearest Neighbor is applied. Multiprocessing technics are used
+to make things faster.
+There are several versions of this file. Each version contains some modifications.
+
+kdd2013_track2_computation 05062013 1851.py
+    script performs computations with Tanimoto similarity for every field in dictionary; resulting similarity
+    is a linear combination of similarities for field in data set
+
+kdd2013_track2_computation 06062013 0938.py
+    if 2 authors have the same names, they are either the same personality or namesakes; trying to handle this case
+
+kdd2013_track2_computation 06062013 1216.py
+    no Tanimoto similarities; just very simple heuristics
+
+kdd2013_track2_computation 06062013 2154.py
+    no Tanimoto similarities; just very simple heuristics
+
+
+
+kdd2013track2.dump.zip - zip-file with dump
+
+conferences_duplicates - row in this file means that one and the same conference has these id's
+
+journals_duplicates - row in this file means that one and the same journal has these id's
+
+sql_queries.rtf - some examples of sql queries used for initial data analysis
+
+statistics.rtf - some statitics
+
+submission_track2_*.csv - csv files for submission
